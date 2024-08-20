@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script type="text/javascript">
+    const tenent_ID = "https://assureeservices.us.qlikcloud.com";
+    const webIntegrationId = "qBzyCz1wcT7ItikIXqaRbpnIdS2r1xke";
+    function login() {
+      function isLoggedIn() {
+        return fetch(tenent_ID+"/api/v1/users/me", {
+          method: 'GET',
+          mode: 'cors',
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json',
+            'qlik-web-integration-id': webIntegrationId,
+          },
+        }).then(response => {
+          console.log(response);
+          return response.status === 200;
+        });
+      }
+      return isLoggedIn().then(loggedIn => {
+        if (!loggedIn) {
+          // check login
+          let returnUrl = window.location.href;
+          console.log("Return URL: ", returnUrl);
+            window.location.href = tenent_ID+"/login?qlik-web-integration-id=" + webIntegrationId + "&returnto=" + returnUrl;
+          throw new Error('not logged in');
+        }
+        else{console.log(loggedIn);}
+      });
+    }
+	login()
+  </script>
+</head>
+
+<body style="height:600px;">
+	<iframe src="https://8r6yjsbx1o07gxr.us.qlikcloud.com/single/?appid=94376031-792c-4a1c-95e1-3b5ed34b5aca&obj=cXED&theme=sense&opt=ctxmenu,currsel" 
+    style="border: 1px;width:100%;height:300px;"></iframe>
+
+
+  </iframe>
+</body>
+
+</html>
